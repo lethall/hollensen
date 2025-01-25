@@ -33,7 +33,8 @@ try:
 except:
     print(f"Failed meta['date'] for {stem}", file=sys.stderr)
 
-frontmatter = f"""---
+try:
+    frontmatter = f"""---
 title: {meta['title']}
 from: 
 occasion: 
@@ -46,6 +47,8 @@ date: {meta['date']}
 
 ## Transcript
 """
+except:
+    frontmatter = 'No Frontmatter\n'
 
 with open(sys.argv[1], "r") as fin:
     with open(stem + ".md", "w") as fout:
