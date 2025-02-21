@@ -59,6 +59,8 @@ with open(sys.argv[1], "r") as fin:
             c = fin.read(1)
             if not c:
                 break
+            elif c == '#':
+                fout.write(c + fin.readline() + "\n")
             elif c in ['?', '.', '!']:
                 fout.write(c + "\n\n")
                 newline = True
