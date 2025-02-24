@@ -3,7 +3,7 @@ import sys
 import pathlib
 from collections import defaultdict
 
-MAX_LENGTH = 200
+MAX_LENGTH = 500
 ARCHIVE = "/Users/leehall/hollensen-realmedia"
 
 if len(sys.argv) != 2:
@@ -53,32 +53,4 @@ except:
 with open(sys.argv[1], "r") as fin:
     with open(stem + ".md", "w") as fout:
         fout.write(frontmatter)
-        newline = False
-        width = 0
-        while True:
-            c = fin.read(1)
-            if not c:
-                break
-            elif c == '#':
-                fout.write(c + fin.readline() + "\n")
-            elif c in ['?', '.', '!']:
-                fout.write(c + "\n\n")
-                newline = True
-                width = 0
-            elif c == '\n':
-                if newline:
-                    # swallow existing newlines
-                    newline = False
-                else:
-                    fout.write(" ")
-            elif c == " ":
-                if width > MAX_LENGTH:
-                    fout.write("\n")
-                    width = 0
-                else:
-                    if not newline:
-                        fout.write(c)
-                    newline = False
-            else:
-                fout.write(c)
-                width += 1
+        fout.write(fin.read())
