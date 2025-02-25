@@ -5,7 +5,9 @@ import json
 REPLACEMENTS = (
     ("until life", "unto life"),
     ("word of God", "Word of God"),
-    ("Emmanuel", "Emanuel")
+    ("Emmanuel", "Emanuel"),
+    (". ", ".\n\n"),
+    ("? ", "?\n\n")
 )
 with open("output.json", "r") as f:
     segments = json.load(f)['segments']
