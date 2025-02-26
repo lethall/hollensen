@@ -40,7 +40,7 @@ from:
 occasion: 
 date: {meta['date']}
 ---
-[website](http://javafoundry.com/elc/elc{int(stem)}.html)
+[website](http://javafoundry.com/elc/{int(stem):03d}.html)
 
 ## Synopsis
 {meta['description']}
