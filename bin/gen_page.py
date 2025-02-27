@@ -41,17 +41,20 @@ TEMPLATE = '''
   <center class="heading">
 
     <table>
-      <tr><td><img src=pulpit_sm.gif></td><td><h1>"${title}"</h1></td><td><img src=portrait_sm.gif></td></tr>
+      <tr><td><img src=pulpit_sm.gif></td>
+        <td align="center"><h1>"${title}"</h1><h1>${from}</h1></td>
+        <td><img src=portrait_sm.gif></td></tr>
       <tr><td></td><td align="center">This sermon was preached ${date} at Emanuel Lutheran Church in Marion, OH</td><td></td></tr>
       <tr><td></td><td align="center"><h2>${occasion}</h2></td><td></td></tr>
     </table>
   </center>
-  <audio class="floating-audio" controls src="/hollensen/${sermon_id}.mp3">
-    <a href="/hollensen/${sermon_id}.mp3">Download audio</a>
+  <audio id="audioPlayer" class="floating-audio" controls>
+    <source src="/hollensen/${sermon_id}.mp3" type="audio/mpeg">
   </audio>
-  <article class="markdown-body">
+  <article id="transcript" class="markdown-body">
   ${body}
   </article>
+  <script src="hollensen.js"></script>
 </body>
 
 </html>'''

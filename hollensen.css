@@ -1,0 +1,31 @@
+.markdown-body {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  max-width: 90%;
+  margin: 64px auto 51px;
+  padding: 45px;
+  font-size: large;
+}
+
+.floating-audio {
+  position: fixed;
+  left: 10%;
+  bottom: 2rem;
+  z-index: 9999;
+  background-color: cyan;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+}
+
+.heading {
+  background-color: black;
+  color: white;
+}
+
+.active {
+  background-color: #004040;
+  font-weight: bold;
+}
