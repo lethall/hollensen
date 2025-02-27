@@ -29,3 +29,19 @@
   background-color: #004040;
   font-weight: bold;
 }
+
+.markdown-body h5 {
+  background-color: cyan;         /* Sets the background color to cyan */
+  padding: 5px 10px;             /* Adds some internal spacing: 5px top/bottom, 10px left/right */
+  display: inline-block;         /* Makes it behave like a button instead of taking full width */
+  border: ridge 1px;                  /* Removes any default border */
+  border-radius: 4px;            /* Adds slightly rounded corners */
+  font-size: .75rem;              /* Sets a smaller font size */
+  color: black;                 /* Sets text color (adjust as needed for contrast) */
+  cursor: pointer;              /* Shows a hand cursor when hovering */
+}
+
+/* Optional: Add hover effect */
+h5:hover {
+  background-color: #00cccc;     /* Slightly darker cyan on hover */
+}
