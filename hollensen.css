@@ -13,8 +13,8 @@
   bottom: 2rem;
   z-index: 9999;
   background-color: cyan;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: outset;
+  border-radius: 15px;
   padding: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 80%;
@@ -34,7 +34,7 @@
   background-color: cyan;         /* Sets the background color to cyan */
   padding: 5px 10px;             /* Adds some internal spacing: 5px top/bottom, 10px left/right */
   display: inline-block;         /* Makes it behave like a button instead of taking full width */
-  border: ridge 1px;                  /* Removes any default border */
+  border: outset;                  /* Removes any default border */
   border-radius: 4px;            /* Adds slightly rounded corners */
   font-size: .75rem;              /* Sets a smaller font size */
   color: black;                 /* Sets text color (adjust as needed for contrast) */
