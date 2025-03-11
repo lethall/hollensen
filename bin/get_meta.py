@@ -24,7 +24,7 @@ if date:
     dt = "/".join((date[4:6], date[6:], date[:4]))
     meta["date"] = dt
 
-with connect("sermon_meta.db") as db:
+with connect(sys.argv[2]) as db:
     db.execute("create table if not exists meta (id primary key, title, reading, occasion, preached, dateseq)")
     db.execute("begin")
     db.execute("delete from meta where id = ?", (meta["sermon_id"],))
