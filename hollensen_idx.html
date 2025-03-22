@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<script src="d3.js"></script>
+<script type="module">
+    const raw = await d3.text("sermon_meta.dat");
+    const rows = raw.split("\n");
+    const dat = []
+    rows.forEach(row => {
+        dat.push(row.split("|"));
+    });
+
+    function loadSermon(e) {
+        const cols = e.currentTarget.innerText.split("\t");
+        window.location.href = "elc/"+ cols[0] + ".html";
+    }
+
+    const tr = d3.select("body").append("table").attr("border", 0).selectAll("tr")
+        .data(dat)
+        .enter().append("tr");
+    tr.selectAll("td")
+        .data((d) => d)
+        .enter().append("td").text((d) => d);
+    tr.on("click", loadSermon);
+</script>
