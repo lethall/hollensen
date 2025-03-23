@@ -1,8 +1,26 @@
 <!DOCTYPE html>
 <style>
-tr:hover {
-  background-color: bisque;
-}
+    body {
+        background-color: black;
+        color: bisque;
+    }
+
+    h1 {
+        color: yellow;
+    }
+
+    h3 {
+        color: blue;
+    }
+
+    tr:hover {
+        background-color: bisque;
+        color: blue;
+    }
+
+    table {
+        margin: 0 auto;
+    }
 </style>
 <script src="d3.js"></script>
 <script type="module">
@@ -10,25 +28,29 @@ tr:hover {
     const rows = raw.split("\n");
     const dat = []
     rows.forEach(row => {
-        if (row.length) dat.push(row.split("|"));
+        if (!row.length) return;
+        const a = row.split("|");
+        if (a[1].substring(0, 3) === "Elc") a[1] = a[1].substring(9);
+        dat.push(a);
     });
-    dat.sort((a,b) => a[5] - b[5]);
-    dat.forEach((row, ii) => {
-        const a = row.slice(0,5);
-        if (a[1].substring(0,3) === "Elc") a[1] = a[1].substring(9);
-        dat[ii] = a;
-    });
+    dat.sort((a, b) => a[5] - b[5]);
 
     function loadSermon(e) {
-        const cols = e.currentTarget.innerText.split("\t");
-        window.location.href = "elc/"+ cols[0] + ".html";
+        const id = e.currentTarget.__data__[0];
+        window.location.href = "elc/" + id + ".html";
     }
+
+    d3.select("body").append("center").append("h1").text("Hollensen Sermons");
+    d3.select("center").append("h3").text("Sorted by Date");
 
     const tr = d3.select("body").append("table").attr("border", 0).selectAll("tr")
         .data(dat)
         .enter().append("tr");
     tr.selectAll("td")
         .data((d) => d)
-        .enter().append("td").text((d) => d);
+        .enter()
+        .append("td")
+        .style("visibility", (d,i) => ([0, 5].indexOf(i) > -1) ? "collapse" : "visible")
+        .text(d => d);
     tr.on("click", loadSermon);
 </script>
