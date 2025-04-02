@@ -8,6 +8,20 @@ anchor.setAttribute("href", "../hollensen_idx.html");
 let body = document.getElementsByTagName("body")[0];
 body.insertBefore(anchor, body.firstChild);
 
+
+function iconLinks(size) {
+    const head = document.getElementsByTagName("head")[0];
+    const icoLink = document.createElement("link");
+    icoLink.setAttribute("rel", "icon");
+    icoLink.setAttribute("type", "image/ico");
+    icoLink.setAttribute("sizes", size);
+    icoLink.setAttribute("href", "favicon-" + size + ".ico");
+    head.appendChild(icoLink);
+}
+iconLinks("16x16");
+iconLinks("32x32");
+iconLinks("180x180");
+
 for (let ii = 0; ii < timestampLines.length; ++ii) {
     const line = timestampLines[ii];
     line.addEventListener("click", e => {
