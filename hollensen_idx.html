@@ -1,32 +1,39 @@
 <!DOCTYPE html>
+
 <head>
-<style>
-    body {
-        background-color: black;
-        color: bisque;
-    }
+    <style>
+        body {
+            background-color: black;
+            color: bisque;
+        }
 
-    h1 {
-        color: yellow;
-    }
+        h1 {
+            color: yellow;
+        }
 
-    h3 {
-        color: blue;
-    }
+        button {
+            color: darkred;
+            border: outset;
+            border-radius: 4px;
+        }
 
-    tr:hover {
-        background-color: bisque;
-        color: blue;
-    }
+        tr:hover {
+            background-color: bisque;
+            color: blue;
+        }
 
-    table {
-        margin: 0 auto;
-    }
-</style>
+        td {
+            padding-right: 1em;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <script src="d3.js"></script>
 <script type="module">
-    function iconLinks(size) {
+    ["16x16", "32x32", "180x180"].forEach(size => {
         const head = document.getElementsByTagName("head")[0];
         const icoLink = document.createElement("link");
         icoLink.setAttribute("rel", "icon");
@@ -34,10 +41,7 @@
         icoLink.setAttribute("sizes", size);
         icoLink.setAttribute("href", "elc/favicon-" + size + ".ico");
         head.appendChild(icoLink);
-    }
-    iconLinks("16x16");
-    iconLinks("32x32");
-    iconLinks("180x180");
+    });
 
     const raw = await d3.text("sermon_meta.dat");
     const rows = raw.split("\n");
@@ -48,24 +52,78 @@
         if (a[1].substring(0, 3) === "Elc") a[1] = a[1].substring(9);
         dat.push(a);
     });
-    dat.sort((a, b) => a[5] - b[5]);
+    
+    function sortAndDisplay(sortOrder) {
+        const sortDat = JSON.parse(JSON.stringify(dat));
+        d3.select("button").remove();
+        let nextSortOrder = sortOrder;
+        if (sortOrder === "Date") nextSortOrder = "Occasion";
+        else if (sortOrder === "Occasion") nextSortOrder = "Scripture";
+        else if (sortOrder === "Scripture") nextSortOrder = "ID";
+        else nextSortOrder = "Date";
+        d3.select("center").append("button").text("Sorted by " + sortOrder).on("click", e => sortAndDisplay(nextSortOrder))
+        if (sortOrder === "Date") {
+            sortDat.forEach(row => {
+                const [id, title, from, occasion, dt, sdt] = row;
+                row[0] = id;
+                row[1] = dt;
+                row[2] = title;
+                row[3] = from;
+                row[4] = occasion;
+                row[5] = sdt;
+            });
+            sortDat.sort((a, b) => a[5] > b[5]);
+        } else if (sortOrder === "Scripture") {
+            sortDat.forEach(row => {
+                const [id, title, from, occasion, dt, sdt] = row;
+                row[0] = id;
+                row[1] = from;
+                row[2] = title;
+                row[3] = dt;
+                row[4] = occasion;
+                row[5] = sdt;
+            });
+            sortDat.sort((a, b) => {
+                if (a[1] === b[1]) return a[0] > b[0];
+                return a[1] > b[1];
+            });
+        } else if (sortOrder === "Occasion") {
+            sortDat.forEach(row => {
+                const [id, title, from, occasion, dt, sdt] = row;
+                row[0] = id;
+                row[1] = occasion;
+                row[2] = title;
+                row[3] = dt;
+                row[4] = from;
+                row[5] = sdt;
+            });
+            sortDat.sort((a, b) => {
+                if (a[1] === b[1]) return a[0] > b[0];
+                return a[1] > b[1];
+            });
+        } else {
+            // no changes, sorting by ID
+        }
+
+        d3.select("table").remove();
+        const tr = d3.select("body").append("table").attr("border", 0).selectAll("tr")
+            .data(sortDat)
+            .enter().append("tr");
+        tr.selectAll("td")
+            .data((d) => d)
+            .enter()
+            .append("td")
+            .style("visibility", (d, i) => (i === 5) ? "collapse" : null)
+            .text(d => d);
+        tr.on("click", loadSermon);
+    }
 
     function loadSermon(e) {
         const id = e.currentTarget.__data__[0];
         window.location.href = "elc/" + id + ".html";
     }
 
-    d3.select("body").append("center").append("h1").text("Hollensen Sermons");
-    d3.select("center").append("h3").text("Sorted by Date");
+    d3.select("body").append("center").append("h1").text("Hollensen Sermons");;
+    sortAndDisplay("Date");
 
-    const tr = d3.select("body").append("table").attr("border", 0).selectAll("tr")
-        .data(dat)
-        .enter().append("tr");
-    tr.selectAll("td")
-        .data((d) => d)
-        .enter()
-        .append("td")
-        .style("visibility", (d,i) => ([0, 5].indexOf(i) > -1) ? "collapse" : "visible")
-        .text(d => d);
-    tr.on("click", loadSermon);
 </script>
