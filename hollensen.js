@@ -28,6 +28,7 @@ for (let ii = 0; ii < timestampLines.length; ++ii) {
         const tStamp = line.getHTML().split(":");
         audio.currentTime = parseInt(tStamp[0]) * 60 + parseInt(tStamp[1]);
     });
+    line.setAttribute("id", line.getHTML());
 }
 
 audio.addEventListener('timeupdate', () => {
@@ -39,3 +40,7 @@ audio.addEventListener('timeupdate', () => {
         if (currentTime == (parseInt(tStamp[0]) * 60 + parseInt(tStamp[1]))) line.scrollIntoView(true);
     }
 });
+
+if (window.location.hash.length > 0) {
+    document.getElementById(window.location.hash.slice(1)).dispatchEvent(new Event("click"));
+}
