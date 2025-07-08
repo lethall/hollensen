@@ -20,7 +20,7 @@ with open(sys.argv[1], "w") as fo:
         text = s['text'].strip()
         for from_txt, to_txt in REPLACEMENTS:
             text = text.replace(from_txt, to_txt)
-        if not text[-1] in ".?!":
+        if (not text) or (not text[-1] in ".?!"):
             print(text, file=fo, end=" ")
             continue
         print(text + "\n", file=fo)
